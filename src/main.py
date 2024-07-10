@@ -13,7 +13,7 @@ MANADA_USER = os.environ.get("MANADA_USER")
 MANADA_PWD = os.environ.get("MANADA_PWD")
 AUTH_URL = os.environ.get("AUTH_URL")
 TOKEN = os.environ.get("BOT_TOKEN", "")
-CHANNEL = os.environ.get("CHANNEL", "")
+CHANNEL = int(os.environ.get("CHANNEL", ""))
 NOTICE_URL = os.environ.get("NOTICE_URL", "")
 
 if not all(
