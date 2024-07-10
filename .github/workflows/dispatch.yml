@@ -18,3 +18,12 @@ jobs:
         if: steps.setup-rye.outputs.cache-hit != 'true'
         run: rye sync
       - run: .venv/bin/python src/main.py
+        env:
+          AUTH_URL: ${{ secrets.AUTH_URL }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL: ${{ secrets.CHANNEL }}
+          MANADA_PWD: ${{ secrets.MANADA_PWD }}
+          MANADA_URL: ${{ secrets.MANADA_URL }}
+          MANADA_USER: ${{ secrets.MANADA_USER }}
+          NOTICE_URL: ${{ secrets.NOTICE_URL }}
+
