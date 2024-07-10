@@ -15,6 +15,6 @@ jobs:
         with:
           enable-cache: true
       - name: Sync rye
-        if: steps.setup-rye.outputs.cache-hit == 'true'
+        if: steps.setup-rye.outputs.cache-hit != 'true'
         run: rye sync
       - run: .venv/bin/python src/main.py
