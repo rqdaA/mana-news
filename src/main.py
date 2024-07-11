@@ -100,8 +100,10 @@ def get_shib() -> dict[str, str]:
 
 
 def beautify_html(txt: str) -> str:
-    res = re.sub(r'<[^>]+?>', '\n', txt)
-    res = re.sub(r'\s+', '', res)
+    res = re.sub(r'<!--.*?-->', '', txt)
+    res = re.sub(r'<br\s*/?>', '\n', res)
+    res = re.sub(r'<[^>]+?>', '', res)
+    # res = re.sub(r'\s+', '', res)
     res = re.sub(r'(?:\r\n|\r|\n)+', '\n', res)
     return res
 
@@ -113,6 +115,8 @@ def get_message():
 
     url = urllib.parse.urljoin(MANADA_URL, NOTICE_URL)
     r = requests.get(url, cookies=cookies, headers=headers)
+    course_name = re.search('<a id=coursename.*?>(.*?)</a>', r.text).group(1)
+
     if 'query' in NOTICE_URL:
         title = re.search(r'<tr class=title>(.*?)</tr>', r.text, re.MULTILINE | re.DOTALL)
         title = re.search(r'>(.*?)</th>', title.group(1), re.MULTILINE | re.DOTALL)
@@ -136,9 +140,9 @@ def get_message():
         text = text.group(1)
     else:
         raise Exception(f"Parse Error")
-    title = beautify_html(title)
+    title = beautify_html(title).strip()
     text = beautify_html(text)
-    embed = discord.Embed(title=title, url=url, color=0x33C7FF)
+    embed = discord.Embed(title=f'{course_name} | {title}', url=url, color=0x33C7FF)
     embed.add_field(name="内容", value=text, inline=True)
     return embed
 
