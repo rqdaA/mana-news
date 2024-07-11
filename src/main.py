@@ -7,6 +7,9 @@ import urllib.parse
 import discord
 import requests
 
+# from dotenv import load_dotenv
+# load_dotenv(".env")
+
 UA = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0"
 MANADA_URL = os.environ.get("MANADA_URL")
 MANADA_USER = os.environ.get("MANADA_USER")
@@ -143,7 +146,8 @@ def get_message():
     title = beautify_html(title).strip()
     text = beautify_html(text)
     embed = discord.Embed(title=f'{course_name} | {title}', url=url, color=0x33C7FF)
-    embed.add_field(name="内容", value=text, inline=True)
+    for i in range(0, len(text), 1024):
+        embed.add_field(name=f"内容{i if i else ''}", value=text[i:i + 1024], inline=True)
     return embed
 
 
